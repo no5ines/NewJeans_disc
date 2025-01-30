@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NewJeans Y2K Experience</title>
+    <style>
+        /* 保持原有样式不变 */
+        :root {
+          --nj-pink: #ff9dbb;
+          --nj-blue: #8ac7ff;
+        }
+
+        body {
+          background: #0000AA url("images/bg/matrix-bg.gif");
+          color: #00FF00;
+          font-family: 'MS Sans Serif', 'Microsoft Sans Serif', 'SimSun', 'Microsoft YaHei', sans-serif;
+          overflow: hidden;
+          margin: 0;
+        }
+
+        .crt::after {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+          pointer-events: none;
+        }
+
+        .windows98-panel {
+          position: fixed;
+          border: 3px solid;
+          border-color: #FFFFFF #808080 #808080 #FFFFFF;
+          background: #C0C0C0;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+          cursor: default;
+          z-index: 1;
+        }
+
+        .windows98-panel.active-window {
+          z-index: 999;
+        }
+
+        .title-bar {
+          background: linear-gradient(90deg, #000080, #1084d0);
+          padding: 4px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: move;
+        }
+
+        .member-container {
+          position: relative;
+          display: inline-block;
+          margin: 10px;
+        }
+
+        .member-pixel {
+          width: 64px;
+          height: 64px;
+          image-rendering: pixelated;
+          border: 2px solid var(--nj-pink);
+          margin: 5px;
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+
+        .member-pixel:hover {
+          transform: scale(1.1);
+          border-color: var(--nj-blue);
+        }
+
+        .member-name {
+          position: absolute;
+          bottom: -15px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 0.8em;
+          color: white;
+          text-shadow: 1px 1px black;
+          white-space: nowrap;
+        }
+
+        #tamagochi {
+          background: #FFF;
+          border: 2px inset;
+          padding: 15px;
+          margin: 10px;
+        }
+
+        .pet {
+          width: 64px;
+          height: 64px;
+          background: url('images/pet/pixel-pet.gif') no-repeat;
+          image-rendering: pixelated;
+          margin: 10px auto;
+        }
+
+        #taskbar {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          background: #C0C0C0;
+          border-top: 2px solid #FFF;
+          display: flex;
+          justify-content: space-between;
+          padding: 2px;
+          font-family: 'MS Sans Serif', sans-serif;
+        }
+
+        .floating-album {
+          position: absolute;
+          animation: float 3s ease-in-out infinite;
+          filter: sepia(0.3) contrast(1.2);
+          width: 80px;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+
+        .lyrics-box {
+          background: rgba(0, 0, 0, 0.7);
+          border: 1px dashed var(--nj-blue);
+          padding: 10px;
+          position: fixed;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 200px;
+          font-family: 'MS Sans Serif', sans-serif;
+        }
+
+.note {
+  image-rendering: pixelated;
+  box-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+#game-area {
+    height: 300px;
+    background: black url('images/icons/game-icon.gif') no-repeat center center !important;
+    background-size: cover !important;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #808080;
+    image-rendering: pixelated;
+}
+
+.lane {
+    width: 25%;
+    height: 100%;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    border-right: 1px solid rgba(255,255,255,0.2);
+
+/* 添加CRT扫描线动画 */
+@keyframes scanline {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+#game-area::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.1) 0%,
+    rgba(0,0,0,0.2) 10%,
+    transparent 30%
+  );
+  animation: scanline 2s linear infinite;
+  pointer-events: none;
+}
+button.pixel-font {
+  font-family: 'MS Sans Serif', sans-serif;
+  font-size: 14px;
+  color: #000;
+}
+
+button.pixel-font:hover {
+  background: #A0A0A0;
+  border-color: #808080 #FFF #FFF #808080;
+}
+        @keyframes moveGameIcon {
+    0% { transform: translateX(-50%) translateY(0); }
+    100% { transform: translateX(-50%) translateY(30px); }
+}
+        #members-container {
+    display: flex;
+    flex-wrap: nowrap;  /* 禁止换行 */
+    justify-content: flex-start;  /* 从左向右排列 */
+    align-items: center;
+    gap: 10px;  /* 头像之间的间距 */
+    overflow-x: auto; /* 允许横向滚动 */
+    max-width: 100%;
+}
+        #unlocked-members {
+    min-height: 150px; /* 限制最小高度 */
+    height: auto;
+    padding: 15px;
+}
+
+    </style>
+</head>
+<body>
+<div class="crt">
+    <!-- 桌面图标 -->
+    <div class="desktop-icon" ondblclick="openMediaPlayer()" style="position: absolute; left: 20px; top: 20px;">
+        <img alt="NewJeans Disc" src="images/icons/cd-icon.gif" style="width:48px;height:48px">
+        <div class="pixel-font" style="color: white;">NewJeans_Disc</div>
+    </div>
+
+    <!-- 主系统窗口 -->
+    <div class="windows98-panel" style="left: 50px; top: 100px; width: 300px;">
+        <div class="title-bar">
+            <span class="pixel-font">SYSTEM_INFO.EXE</span>
+            <div class="controls">❎</div>
+        </div>
+        <div class="content">
+            <img alt="Loading..." src="images/loading.gif" style="width: 100px;">
+            <p class="pixel-font">Booting NewJeans OS...</p>
+        </div>
+    </div>
+
+    <!-- 虚拟宠物窗口 -->
+    <div class="windows98-panel" style="left: 400px; top: 80px; width: 200px;">
+        <div class="title-bar">
+            <span class="pixel-font">DIGI_PET.EXE</span>
+            <div class="controls">❎</div>
+        </div>
+        <div id="tamagochi">
+            <div class="pet"></div>
+            <div class="pixel-font" id="pet-status">HUNGER: ▰▰▰▰▰<br>MOOD: ▰▰▰▰▰</div>
+            <button class="pixel-font" onclick="feed()">🎮 Feed</button>
+            <button class="pixel-font" onclick="play()">🕹️ Play</button>
+        </div>
+    </div>
+
+    <!-- 成员互动窗口 -->
+    <div class="windows98-panel" style="left: 100px; top: 300px; width: 400px;">
+        <div class="title-bar">
+            <span class="pixel-font">MEMBERS_1999.EXE</span>
+            <div class="controls">❎</div>
+        </div>
+        <div class="content" style="text-align: center;">
+            <div class="member-container">
+                <img alt="MINJI" class="member-pixel" onclick="showBio('minji')" src="images/members/minji.png">
+                <div class="member-name pixel-font">MINJI</div>
+            </div>
+            <div class="member-container">
+                <img alt="HANNI" class="member-pixel" onclick="showBio('hanni')" src="images/members/hanni.png">
+                <div class="member-name pixel-font">HANNI</div>
+            </div>
+            <div class="member-container">
+                <img alt="DANIELLE" class="member-pixel" onclick="showBio('danielle')"
+                     src="images/members/danielle.png">
+                <div class="member-name pixel-font">DANIELLE</div>
+            </div>
+            <div class="member-container">
+                <img alt="HAERIN" class="member-pixel" onclick="showBio('haerin')" src="images/members/haerin.png">
+                <div class="member-name pixel-font">HAERIN</div>
+            </div>
+            <div class="member-container">
+                <img alt="HYEIN" class="member-pixel" onclick="showBio('hyein')" src="images/members/hyein.png">
+                <div class="member-name pixel-font">HYEIN</div>
+            </div>
+            <div class="pixel-font" id="member-bio" style="margin: 15px; color: #000;"></div>
+        </div>
+    </div>
+
+    <!-- NewJeans 团体照片窗口 -->
+<div class="windows98-panel" style="left: 100px; top: 600px; width: 400px;">
+    <div class="title-bar">
+        <span class="pixel-font">📸 NJ_GROUP_PHOTOS.EXE</span>
+        <div class="controls">❎</div>
+    </div>
+    <div class="content" style="text-align: center;">
+        <img id="group-photo" src="images/group/group1.jpg" style="width: 100%; border: 2px solid #000;">
+        <div style="margin-top: 10px;">
+            <button class="pixel-font" onclick="prevPhoto()">⬅ 上一张</button>
+            <button class="pixel-font" onclick="nextPhoto()">下一张 ➡</button>
+        </div>
+    </div>
+</div>
+
+    <!-- 音乐播放器窗口 -->
+    <div class="windows98-panel" style="left: 600px; top: 150px; width: 320px;">
+        <div class="title-bar">
+            <span class="pixel-font">BUNNY_JAMMER.EXE</span>
+            <div class="controls">❎</div>
+        </div>
+        <div class="content">
+            <div style="position: relative; height: 100px;">
+                <img class="floating-album" src="images/albums/hypeboy.gif" style="left:10%">
+                <img class="floating-album" src="images/albums/ditto.gif" style="left:60%;animation-delay:1s">
+            </div>
+            <audio controls id="nj-player" style="width:100%">
+                <source src="audio/newjeans-hypeboy.mp3" type="audio/mp3">
+            </audio>
+            <div class="lyrics-box pixel-font" id="lyrics"></div>
+        </div>
+    </div>
+
+    <!-- 在现有HTML的windows98-panel区域添加 -->
+    <div class="windows98-panel" style="left: 250px; top: 450px; width: 480px;">
+        <div class="title-bar">
+            <span class="pixel-font">🎵 RHYTHM_BUNNY.EXE</span>
+            <div class="controls">❎</div>
+        </div>
+        <div class="content" style="padding:10px">
+            <div class="pixel-font" style="text-align:center; margin:5px">
+                🕹️ 难度：<select id="difficulty" style="background:#C0C0C0; border:2px inset">
+                <option>EASY</option>
+                <option>NORMAL</option>
+                <option>HARD</option>
+            </select>
+                🏆 最高分：<span id="highscore">0</span>
+            </div>
+            <div style="text-align: center; margin: 10px 0;">
+                <button id="start-game-btn" class="pixel-font" id="start-game-btn"
+                        onclick="game.start()"
+                        style="background: #C0C0C0;
+                           border: 2px outset #FFF #808080 #808080 #FFF;
+                           padding: 6px 12px;
+                           cursor: pointer;">
+                    ▶ START GAME
+                </button>
+                <button class="pixel-font"
+                        onclick="game.stop()"
+                        style="background: #C0C0C0;
+                 border: 2px outset #FFF #808080 #808080 #FFF;
+                 padding: 6px 12px;
+                 cursor: pointer;
+                 margin-left: 10px;">
+                    ⏹ STOP GAME
+                </button>
+            </div>
+
+<!-- 🎀 成员解锁窗口 -->
+<div id="unlocked-members" class="windows98-panel"
+     style="position: absolute; left: 750px; top: 150px; width: 300px; ">
+    <div class="title-bar">
+        <span class="pixel-font">🌟 UNLOCKED MEMBERS</span>
+        <button id="close-members-btn"
+                style="float: right; background: none; color: white; border: none; cursor: pointer;">❎</button>
+    </div>
+    <div class="content pixel-font" style="text-align: center; background: white; padding: 10px;">
+        <p>💎在Rhythm Bunny达到高分 收集成员大头贴！</p>
+        <div id="members-container"></div>
+    </div>
+</div>
+
+<!-- 🎵 “游玩指南” 按钮 -->
+<button id="show-guide-btn" class="pixel-font"
+        style="background: #C0C0C0; border: 2px outset #FFF #808080 #808080 #FFF;
+               padding: 6px 12px; cursor: pointer; margin-top: 10px;">
+    📖 游玩指南
+</button>
+
+<!-- 🎮 游玩指南窗口 -->
+<div id="game-guide" class="windows98-panel"
+     style="display: none; position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px; padding: 10px; z-index: 1000;">
+    <div class="title-bar">
+        <span class="pixel-font">📖 Rhythm Bunny - 游玩指南</span>
+        <button id="close-guide-btn"
+                style="float: right; background: red; color: white; border: none; cursor: pointer;">❎</button>
+    </div>
+    <div class="content pixel-font" style="max-height: 300px; overflow-y: auto; background: white; padding: 10px;">
+        <p><strong>🎯 游戏目标：</strong> 前奏结束后按键击打音符，保持连击，挑战高分！</p>
+        <p><strong>🎮 操作方式：</strong></p>
+        <ul>
+            <li><strong>A</strong> - 第一轨道</li>
+            <li><strong>S</strong> - 第二轨道</li>
+            <li><strong>D</strong> - 第三轨道</li>
+            <li><strong>F</strong> - 第四轨道</li>
+        </ul>
+        <p>跟随音乐按键，音符进入接近底部的判定区时击打！</p>
+        <p><strong>🔥 小技巧：</strong> 连击越高，得分加成越高！</p>
+    </div>
+</div>
+
+            <div id="game-area"
+                 style="height:300px; background:black; position:relative; overflow:hidden;
+                border:3px solid #808080; image-rendering:pixelated">
+                <!-- 音符将动态生成在此 -->
+            </div>
+            <div class="pixel-font" style="text-align:center; margin:5px">
+                🔥 COMBO: <span id="combo">0</span>
+                💯 SCORE: <span id="score">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态栏 -->
+    <div id="taskbar">
+        <div class="pixel-font">📻 NewJeans OS v1.0</div>
+        <div class="pixel-font" id="clock">🕒 00:00 AM</div>
+    </div>
+</div>
+
+<script>
+    // 使用闭包隔离拖拽系统
+   (function() {
+     // 拖拽状态管理器（避免全局污染）
+     const dragManager = {
+       isDragging: false,
+       currentWindow: null,
+       startX: 0,
+       startY: 0,
+       offsetX: 0,
+       offsetY: 0
+     };
+
+     // 窗口层级计数器
+     let zIndexCounter = 100;
+
+     // 初始化所有窗口
+     function initWindows() {
+       document.querySelectorAll('.windows98-panel').forEach(win => {
+         win.style.zIndex = zIndexCounter++;
+         win.querySelector('.title-bar').addEventListener('mousedown', startDrag);
+       });
+     }
+
+     // 开始拖拽
+     function startDrag(e) {
+       e.stopPropagation();
+
+       dragManager.isDragging = true;
+       dragManager.currentWindow = e.target.closest('.windows98-panel');
+       dragManager.currentWindow.style.zIndex = zIndexCounter++;
+
+       const rect = dragManager.currentWindow.getBoundingClientRect();
+       dragManager.startX = e.clientX;
+       dragManager.startY = e.clientY;
+       dragManager.offsetX = e.clientX - rect.left;
+       dragManager.offsetY = e.clientY - rect.top;
+     }
+
+     // 处理拖拽中
+     function handleDrag(e) {
+       if (!dragManager.isDragging) return;
+
+       const newX = e.clientX - dragManager.offsetX;
+       const newY = e.clientY - dragManager.offsetY;
+
+       dragManager.currentWindow.style.left = `${newX}px`;
+       dragManager.currentWindow.style.top = `${newY}px`;
+     }
+
+     // 结束拖拽
+     function stopDrag() {
+       dragManager.isDragging = false;
+       dragManager.currentWindow = null;
+     }
+
+     // 事件绑定（使用passive改善性能）
+     document.addEventListener('mousemove', handleDrag, { passive: true });
+     document.addEventListener('mouseup', stopDrag);
+     window.addEventListener('load', initWindows);
+
+     // 暴露必要接口给游戏
+     window.windowManager = {
+       bringToFront: (win) => {
+         win.style.zIndex = zIndexCounter++;
+       }
+     };
+   })();
+
+       // 修复后的宠物系统
+       let petStats = { hunger: 5, mood: 5 };
+
+       // 自动减少状态
+       function autoDecrease() {
+         setInterval(() => {
+           petStats.hunger = Math.max(0, petStats.hunger - 1);
+           petStats.mood = Math.max(0, petStats.mood - 1);
+           updatePet();
+         }, 30000); // 每30秒减少1点
+       }
+
+       function feed() {
+         petStats.hunger = Math.min(5, petStats.hunger + 1); // 每次喂养+1
+         updatePet();
+       }
+
+       function play() {
+         petStats.mood = Math.min(5, petStats.mood + 1); // 每次玩耍+1
+         updatePet();
+       }
+
+       function updatePet() {
+         const statusElement = document.getElementById("pet-status");
+         statusElement.innerHTML =
+           `HUNGER: ${'▰'.repeat(petStats.hunger)}${'▱'.repeat(5 - petStats.hunger)}<br>
+            MOOD: ${'▰'.repeat(petStats.mood)}${'▱'.repeat(5 - petStats.mood)}`;
+
+         // 添加视觉反馈
+         statusElement.style.color = petStats.hunger <= 2 ? "#FF0000" : "#00FF00";
+         statusElement.style.textShadow = petStats.mood <= 2 ? "0 0 5px red" : "none";
+       }
+
+       // 在页面加载事件监听器中添加 ↓↓↓
+       window.addEventListener('load', () => {
+         updateClock();
+         autoDecrease(); // 新增的初始化调用
+         document.querySelectorAll('.windows98-panel').forEach((win, index) => {
+           win.style.zIndex = 100 + index;
+         });
+       });
+
+       // 成员简介系统
+       const members = {
+         minji: { bio: "🐻\n 👑 Digital Leader\n🎂 2004.05.07" },
+         hanni: { bio: "🦭\n 🎤 Melody Master\n🎂 2004.10.06" },
+         danielle: { bio: "🐶\n ✨ Sunshine Energy\n🎂 2005.04.11" },
+         haerin: { bio: "🐈‍⬛\n 😼 Cat-like Charisma\n🎂 2006.05.15" },
+         hyein: { bio: "🐹\n 🐇 Maknae Power\n🎂 2008.04.21" }
+       };
+
+       function showBio(member) {
+         document.getElementById("member-bio").innerText = members[member].bio;
+       }
+
+       // 系统时钟
+       function updateClock() {
+         const timeString = new Date().toLocaleTimeString('en-US', {
+           hour: 'numeric',
+           minute: '2-digit'
+         });
+         document.getElementById("clock").innerHTML = `🕒 ${timeString}`;
+       }
+       setInterval(updateClock, 1000);
+
+       // 歌词同步示例
+       const hypeboyLyrics = [
+         { time: 18.01, text: "One, two, three, four" },
+         { time: 19.39, text: "Baby (baby)" },
+         { time: 20.60, text: "Got me looking so crazy (crazy)" },
+         { time: 23.15, text: "빠져버리는 daydream (daydream)" },
+         { time: 25.35, text: "Got me feeling you, 너도 말해줄래?" },
+         { time: 29.25, text: "누가 내게 뭐라든, 남들과는 달라 넌" },
+         { time: 31.65, text: "Maybe you could be the one (one)" },
+         { time: 33.98, text: "날 믿어봐 한번, I'm not looking for just fun" },
+         { time: 36.42, text: "Maybe I could be the one" },
+         { time: 38.03, text: "Oh, baby, 예민하대 나 lately" },
+         { time: 42.23, text: "너 없이는 매일 매일이, yeah, 재미없어, 어쩌지?" },
+         { time: 48.38, text: "I just want you call my phone right now" },
+         { time: 50.53, text: "I just wanna hear \"you're mine\"" },
+         { time: 52.90, text: "'Cause I know what you like, boy (ah-ah)" },
+         { time: 57.52, text: "You're my chemical hype boy (ah-ah)" },
+         { time: 62.43, text: "내 지난날들은, 눈 뜨면 잊는 꿈" },
+         { time: 67.68, text: "Hype boy, 너만 원해, hype boy, 내가 전해" },
+         { time: 71.57, text: "And we can go high" },
+         { time: 74.15, text: "말해봐, yeah, 느껴봐, mmm, mmm" },
+         { time: 76.49, text: "Take him to the sky" },
+         { time: 79.03, text: "You know, I hype you, boy" },
+         { time: 81.08, text: "눈을 감아" },
+         { time: 83.56, text: "말해봐, yeah, 느껴봐, mmm, mmm" },
+         { time: 85.85, text: "Take him to the sky" },
+         { time: 88.43, text: "You know, I hype you, boy" },
+         { time: 94.25, text: "잠에 들려고, 잠에 들려 해도" },
+         { time: 96.64, text: "네 생각에 또 새벽 세 시, uh-oh" },
+         { time: 99.00, text: "알려줄 거야, they can't have you no more" },
+         { time: 101.66, text: "봐봐 여기 내 이름 써있다고, yeah" },
+         { time: 106.07, text: "누가 내게 뭐라든, 남들과는 달라 넌" },
+         { time: 108.51, text: "Maybe you could be the one (one)" },
+         { time: 110.68, text: "날 믿어봐 한번, I'm not looking for just fun" },
+         { time: 113.25, text: "Maybe I could be the one" },
+         { time: 114.81, text: "Oh, baby, 예민하대 나 lately" },
+         { time: 119.03, text: "너 없이는 매일 매일이, yeah, 재미없어, 어쩌지?" },
+         { time: 124.91, text: "I just want you call my phone right now" },
+         { time: 127.37, text: "I just wanna hear \"you're mine\"" },
+         { time: 129.59, text: "'Cause I know what you like, boy (ah-ah)" },
+         { time: 134.29, text: "You're my chemical hype boy (ah-ah)" },
+         { time: 139.39, text: "내 지난날들은, 눈 뜨면 잊는 꿈" },
+         { time: 144.42, text: "Hype boy, 너만 원해, hype boy, 내가 전해" },
+         { time: 148.13, text: "And we can go high" },
+         { time: 150.78, text: "말해봐, yeah, 느껴봐, mmm, mmm" },
+         { time: 153.15, text: "Take him to the sky" },
+         { time: 155.74, text: "You know, I hype you, boy" },
+         { time: 158.30, text: "눈을 감아" },
+         { time: 160.39, text: "말해봐, yeah, 느껴봐, mmm, mmm" },
+         { time: 162.52, text: "Take him to the sky" },
+         { time: 165.18, text: "You know, I hype you, boy" }
+       ];
+
+       document.getElementById("nj-player").ontimeupdate = function() {
+         const currentTime = this.currentTime;
+
+         // 方法1：reduce 查找
+         const currentLyric = hypeboyLyrics.reduce((last, cur) =>
+           cur.time <= currentTime ? cur : last, null
+         );
+
+         // 方法2：反向查找（备选）
+         // const currentLyric = [...hypeboyLyrics].reverse().find(l => l.time <= currentTime);
+
+         document.getElementById("lyrics").innerHTML = currentLyric?.text || "♪ ♫ ♪";
+       };
+
+       // 初始化
+       window.addEventListener('load', () => {
+         updateClock();
+         document.querySelectorAll('.windows98-panel').forEach((win, index) => {
+           win.style.zIndex = 100 + index;
+         });
+       });
+
+class RhythmGame {
+  constructor() {
+    this.isPlaying = false;
+    this.notes = [];
+    this.generatedNotes = new Set();
+    this.score = 0;
+    this.combo = 0;
+    this.highScore = parseInt(localStorage.getItem('njHighScore')) || 0;
+    this.keyMap = { 'a':1, 's':2, 'd':3, 'f':4 };
+    this.noteSpeed = 3;
+     this.unlockedMembers = new Set(); // 存储已解锁的成员
+        this.memberPhotos = {
+            2000: { name: "Minji", image: "images/unlocked_members/minji.png" },
+            4800: { name: "Hanni", image: "images/unlocked_members/hanni.png" },
+            7200: { name: "Danielle", image: "images/unlocked_members/danielle.png" },
+            10000: { name: "Haerin", image: "images/unlocked_members/haerin.png" },
+            12000: { name: "Hyein", image: "images/unlocked_members/hyein.png" }
+        };
+    this.lastNoteTime = 0;
+    this.song = new Audio('audio/newjeans-NewJeans.mp3');
+    this.gameArea = document.getElementById('game-area');
+
+    this.renderHighScore();
+    document.addEventListener('keypress', this.handleInput.bind(this));
+  }
+
+  renderHighScore() {
+    document.getElementById('highscore').textContent = this.highScore;
+  }
+
+start() {
+    if (this.isPlaying) return;
+    this.isPlaying = true;
+    this.generatedNotes.clear();
+
+    this.reset();
+    this.song.currentTime = 0;
+    this.song.play();
+    this.isPlaying = true;
+
+    if (!this.difficultyBound) {
+        document.getElementById('difficulty').addEventListener('change', () => this.setDifficulty());
+        this.difficultyBound = true;
+    }
+
+    this.gameLoop();
+    this.setDifficulty();
+    this.addGameIcon();
+}
+
+    gameLoop() {
+        if (!this.isPlaying) return;
+        this.generateNotes();
+        this.updateNotes();
+        requestAnimationFrame(() => this.gameLoop());
+    }
+
+  setDifficulty() {
+    const diff = document.getElementById('difficulty').value;
+    this.noteSpeed = { EASY:2, NORMAL:3, HARD:4 }[diff];
+  }
+
+    generateNotes() {
+        if (!this.song) return console.error("歌曲未正确加载！");
+        const currentTime = this.song.currentTime;
+
+const beatMap = [
+    { time: 14.41, lane: 3 },
+    { time: 16.37, lane: 1 },
+    { time: 18.28, lane: 4 },
+    { time: 20.07, lane: 2 },
+    { time: 22.17, lane: 1 },
+    { time: 23.88, lane: 3 },
+    { time: 25.92, lane: 4 },
+    { time: 27.58, lane: 2 },
+    { time: 29.28, lane: 1 },
+    { time: 31.12, lane: 3 },
+    { time: 31.34, lane: 2 },
+    { time: 32.96, lane: 4 },
+    { time: 34.41, lane: 1 },
+    { time: 36.01, lane: 2 },
+    { time: 37.84, lane: 3 },
+    { time: 39.64, lane: 1 },
+    { time: 41.46, lane: 4 },
+    { time: 43.24, lane: 2 },
+    { time: 44.93, lane: 3 },
+    { time: 46.83, lane: 1 },
+    { time: 48.55, lane: 4 },
+    { time: 50.20, lane: 2 },
+    { time: 51.99, lane: 3 },
+    { time: 54.02, lane: 1 },
+    { time: 55.49, lane: 4 },
+    { time: 57.58, lane: 2 },
+    { time: 58.98, lane: 3 },
+    { time: 61.15, lane: 1 },
+    { time: 62.50, lane: 4 },
+    { time: 64.66, lane: 2 },
+    { time: 64.88, lane: 3 },
+    { time: 66.59, lane: 1 },
+    { time: 68.35, lane: 4 },
+    { time: 70.17, lane: 2 },
+    { time: 72.08, lane: 3 },
+    { time: 74.12, lane: 1 },
+    { time: 76.38, lane: 4 },
+    { time: 78.52, lane: 2 },
+    { time: 80.79, lane: 3 },
+    { time: 82.41, lane: 1 },
+    { time: 84.26, lane: 4 },
+    { time: 86.12, lane: 2 },
+    { time: 88.49, lane: 3 },
+    { time: 90.13, lane: 1 },
+    { time: 92.30, lane: 4 },
+    { time: 94.42, lane: 2 },
+    { time: 96.75, lane: 3 },
+    { time: 98.91, lane: 1 }
+];
+
+    beatMap.forEach(beat => {
+                const noteKey = `${beat.time}-${beat.lane}`;
+        if (currentTime < beat.time && beat.time - currentTime < 0.2) {
+        if (!this.generatedNotes.has(beat.time))
+    console.log(`生成音符 -> 车道 ${beat.lane}, 时间: ${beat.time}`);
+            this.createNote(beat.lane);
+            this.generatedNotes.add(beat.time);
+        }
+    });
+}
+
+showUnlockedMember(score) {
+    const memberData = this.memberPhotos[score];
+    if (!memberData) return;
+
+    const unlockedWin = document.getElementById("unlocked-members");
+    unlockedWin.style.display = "block";
+
+        // ✅ 取消与 RhythmGame 绑定
+    unlockedWin.style.position = "fixed";  // 确保它相对视口定位，而不是其他元素
+    unlockedWin.style.zIndex = "1000";     // 确保它在最前面
+    unlockedWin.style.margin = "0";        // 防止外部影响
+
+    // 计算窗口居中，并确保不会超出视口
+    const winWidth = unlockedWin.offsetWidth;
+    const winHeight = unlockedWin.offsetHeight;
+    let left = (window.innerWidth - winWidth) / 2;
+    let top = (window.innerHeight - winHeight) / 2;
+
+    left = Math.max(0, Math.min(left, window.innerWidth - winWidth));
+    top = Math.max(0, Math.min(top, window.innerHeight - winHeight));
+
+    // 绑定拖动
+    const titleBar = unlockedWin.querySelector('.title-bar');
+    if (titleBar) makeDraggable(unlockedWin, titleBar);
+
+    // 让窗口始终横向增长
+    unlockedWin.style.whiteSpace = "nowrap";
+    unlockedWin.style.width = "auto";
+    unlockedWin.style.maxWidth = "90vw"; // 防止超出屏幕
+
+    // 创建新成员照片
+    const img = document.createElement("img");
+    img.src = memberData.image;
+    img.style.cssText = "width: 80px; margin: 5px; image-rendering: pixelated;";
+    img.alt = memberData.name;
+
+    // 加入成员展示区
+    document.getElementById("members-container").appendChild(img);
+
+    // 显示解锁窗口，但不影响游戏
+    document.getElementById("unlocked-members").style.display = "flex";
+
+    // 🎉 新增解锁提示，不打断游戏
+    const unlockMessage = document.createElement("div");
+    unlockMessage.textContent = `🎉 解锁 ${memberData.name}！`;
+    unlockMessage.style.cssText = `
+        position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8); color: white; padding: 10px 20px;
+        border-radius: 5px; font-size: 14px; z-index: 9999;
+    `;
+    document.body.appendChild(unlockMessage);
+
+    // 3 秒后自动消失
+    setTimeout(() => unlockMessage.remove(), 3000);
+
+    document.getElementById("close-members-btn").addEventListener("click", () => {
+    document.getElementById("unlocked-members").style.display = "none";
+});
+
+}
+
+
+
+  stop() {
+    if (!this.isPlaying) return;
+
+    // 停止音乐
+    this.song.pause();
+    this.song.currentTime = 0;
+
+    // 停止游戏循环
+    this.isPlaying = false;
+
+    // 清除所有音符
+    this.notes.forEach(note => note.element.remove());
+    this.notes = [];
+
+    // 重置连击和分数显示
+    this.combo = 0;
+    this.updateDisplay();
+
+    // 🎯 移除 game-icon
+    const gameIcon = document.getElementById('game-icon');
+    if (gameIcon) gameIcon.remove();
+
+    // 显示游戏已停止的提示
+    console.log("游戏已停止");
+  }
+
+createNote(lane) {
+    const note = document.createElement('div');
+    note.className = 'note';
+    note.style.cssText = `
+        width: 40px;
+        height: 20px;
+        background: ${['#FF69B4','#7FFF00','#00BFFF','#FFD700'][lane-1]};
+        position: absolute;
+        left: ${(lane-1) * 100 + 50}px;
+        top: 0px;
+        transition: transform 2s linear;
+        z-index: 1000;
+    `;
+
+    this.gameArea.appendChild(note);
+    console.log(`创建音符: 车道 ${lane}`); // 调试日志
+
+    // 让音符移动到底部
+    setTimeout(() => {
+        note.style.transform = `translateY(${this.gameArea.offsetHeight}px)`;
+    }, 50);  // 50ms 确保 transition 生效
+
+    this.notes.push({
+        element: note,
+        lane: lane,
+        active: true,
+        hit: false
+    });
+}
+
+updateNotes() {
+    this.notes = this.notes.filter(note => {
+        const rect = note.element.getBoundingClientRect();
+        const gameAreaRect = this.gameArea.getBoundingClientRect();
+
+        if (rect.bottom > gameAreaRect.bottom) { // 音符超出范围
+            note.element.remove();
+            if (!note.hit) this.combo = 0;
+            return false;
+        }
+        return true;
+    });
+    this.notes = this.notes.filter(note => note.active); // 仅保留未移除的音符
+}
+
+  handleInput(e) {
+    if (!this.isPlaying || !this.keyMap[e.key]) return;
+
+    const lane = this.keyMap[e.key];
+    const currentTime = performance.now();
+
+    // 查找可击打的音符
+    const hitNote = this.notes.find(n =>
+      n.active &&
+      n.lane === lane &&
+      !n.hit &&
+      this.checkNotePosition(n.element)
+    );
+
+    if (hitNote) {
+      this.processHit(hitNote);
+    } else {
+      this.combo = Math.max(0, this.combo - 1);
+    }
+  }
+
+checkNotePosition(element) {
+    const notePos = element.getBoundingClientRect();
+    const gameAreaRect = this.gameArea.getBoundingClientRect();
+
+    // 判定窗口大小
+    return notePos.bottom >= gameAreaRect.bottom - 60 &&
+           notePos.top <= gameAreaRect.bottom - 20;
+}
+
+  processHit(note) {
+    note.hit = true;
+    note.active = false;
+    this.score += 100 + (this.combo * 50);
+    this.combo++;
+
+    // 视觉反馈
+    note.element.style.background = '#FFFFFF';
+    note.element.style.boxShadow = '0 0 15px rgba(255,255,255,0.8)';
+
+    // 粒子效果
+    this.createParticleEffect(note.element);
+
+    setTimeout(() => note.element.remove(), 100);
+    this.updateDisplay();
+  }
+
+  createParticleEffect(sourceElement) {
+    for(let i = 0; i < 8; i++) {
+      const particle = document.createElement('div');
+      const rect = sourceElement.getBoundingClientRect();
+
+      particle.style.cssText = `
+        width: 6px;
+        height: 6px;
+        background: ${sourceElement.style.background};
+        position: absolute;
+        left: ${rect.left + rect.width/2 - 3}px;
+        top: ${rect.top + rect.height/2 - 3}px;
+        border-radius: 50%;
+        pointer-events: none;
+      `;
+
+      document.body.appendChild(particle);
+
+      particle.animate([
+        { transform: 'scale(1)', opacity: 1 },
+        {
+          transform: `translate(${Math.random()*60-30}px, ${Math.random()*60-30}px) scale(0)`,
+          opacity: 0
+        }
+      ], {
+        duration: 800,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      });
+
+      setTimeout(() => particle.remove(), 800);
+    }
+  }
+
+  updateDisplay() {
+    document.getElementById('score').textContent = this.score;
+    document.getElementById('combo').textContent = this.combo;
+
+    this.checkUnlocks();
+
+    if (this.score > this.highScore) {
+      this.highScore = this.score;
+      localStorage.setItem('njHighScore', this.highScore);
+      this.renderHighScore();
+    }
+  }
+
+checkUnlocks() {
+    Object.keys(this.memberPhotos).forEach(score => {
+        if (this.score >= score && !this.unlockedMembers.has(score)) {
+            this.unlockedMembers.add(score);
+            this.showUnlockedMember(score);
+        }
+    });
+}
+reset() {
+    this.notes.forEach(n => n.element.remove());
+    this.notes = [];
+
+    this.score = 0;
+    this.combo = 0;
+    this.isPlaying = false;
+    this.song.pause();
+    this.song.currentTime = 0;
+
+    this.updateDisplay();
+}
+
+addGameIcon() {
+    const gameArea = document.getElementById('game-area');
+    if (!gameArea) return;
+
+    // 设置背景图
+    gameArea.style.background = "black url('images/icons/game-icon.gif') no-repeat center center";
+    gameArea.style.backgroundSize = "cover";
+}
+
+}
+document.getElementById("show-guide-btn").addEventListener("click", () => {
+    const guideWindow = document.getElementById("game-guide");
+    guideWindow.style.display = "block";  // 显示窗口
+
+    // 禁用游戏 & 其他操作
+    document.getElementById("start-game-btn").disabled = true;
+    document.getElementById("show-guide-btn").disabled = true;
+    document.getElementById("difficulty").disabled = true;
+});
+
+document.getElementById("close-guide-btn").addEventListener("click", () => {
+    const guideWindow = document.getElementById("game-guide");
+    guideWindow.style.display = "none";  // 关闭窗口
+
+    // 重新启用游戏 & 按钮
+    document.getElementById("start-game-btn").disabled = false;
+    document.getElementById("show-guide-btn").disabled = false;
+    document.getElementById("difficulty").disabled = false;
+});
+
+
+   // 初始化游戏
+   const game = new RhythmGame();
+document.querySelector('#start-game-btn').addEventListener('click', () => game.start());
+document.addEventListener('keydown', (e) => game.handleInput(e));
+
+// 图片路径数组
+const photos = [
+    "images/group/group1.jpg",
+    "images/group/group2.jpg",
+    "images/group/group3.jpg",
+    "images/group/group4.jpg",
+    "images/group/group5.jpg"
+];
+
+
+
+let currentIndex = 0;
+
+// 更新图片显示
+function updatePhoto() {
+    document.getElementById("group-photo").src = photos[currentIndex];
+}
+
+// 切换到上一张
+function prevPhoto() {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    updatePhoto();
+}
+
+// 切换到下一张
+function nextPhoto() {
+    currentIndex = (currentIndex + 1) % photos.length;
+    updatePhoto();
+}
+function makeDraggable(element, handle) {
+    let offsetX = 0, offsetY = 0, isDragging = false;
+
+    handle.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+        element.style.zIndex = 999;
+        document.body.style.userSelect = "none"; // 防止拖动时选中文字
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+
+        let newX = e.clientX - offsetX;
+        let newY = e.clientY - offsetY;
+
+        // 获取视口尺寸
+        const maxX = window.innerWidth - element.offsetWidth;
+        const maxY = window.innerHeight - element.offsetHeight;
+
+        // 限制窗口在视口内
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+
+        element.style.left = `${newX}px`;
+        element.style.top = `${newY}px`;
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        document.body.style.userSelect = "auto"; // 允许再次选中文字
+    });
+}
+
+// 绑定所有可拖动窗口
+window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.windows98-panel').forEach(win => {
+        const titleBar = win.querySelector('.title-bar');
+        if (titleBar) makeDraggable(win, titleBar);
+    });
+
+    // 解绑 unlocked-members 窗口的特殊绑定，使其独立
+    const unlockedMembersWin = document.getElementById("unlocked-members");
+    if (unlockedMembersWin) {
+        unlockedMembersWin.style.position = "fixed"; // 确保固定于视口
+        const titleBar = unlockedMembersWin.querySelector('.title-bar');
+        if (titleBar) makeDraggable(unlockedMembersWin, titleBar);
+    }
+});
+
+    document.getElementById("close-members-btn").addEventListener("click", (e) => e.stopPropagation());
+</script>
+</body>
+</html>
